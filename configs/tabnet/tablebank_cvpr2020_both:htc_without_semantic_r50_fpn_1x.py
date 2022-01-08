@@ -233,8 +233,8 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=4,
-    workers_per_gpu=4,
+    samples_per_gpu=3,
+    workers_per_gpu=3,
     val=dict(pipeline=test_pipeline), 
     test=dict(pipeline=test_pipeline)
     )
