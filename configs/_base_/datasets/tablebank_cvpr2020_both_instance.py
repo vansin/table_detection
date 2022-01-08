@@ -46,4 +46,5 @@ data = dict(
         ann_file=data_root + 'annotations/both_test.json',
         img_prefix=data_root + 'images/',
         pipeline=test_pipeline))
-evaluation = dict(metric=['bbox', 'segm'])
+# evaluation = dict(metric=['bbox', 'segm'])
+evaluation = dict(metric='mAP')
