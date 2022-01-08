@@ -46,4 +46,5 @@ data = dict(
         ann_file='data/icdar2019/modern_test.json',
         img_prefix='data/icdar2019/test/TRACKA/',
         pipeline=test_pipeline))
-evaluation = dict(interval=1, metric='bbox')
+# evaluation = dict(interval=1, metric='bbox')
+evaluation = dict(metric='mAP')
