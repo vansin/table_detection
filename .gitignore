@@ -64,8 +64,7 @@ instance/
 .scrapy
 
 # Sphinx documentation
-docs/en/_build/
-docs/zh_cn/_build/
+docs/_build/
 
 # PyBuilder
 target/
@@ -116,9 +115,13 @@ data
 *.log.json
 docs/modelzoo_statistics.md
 mmdet/.mim
-work_dirs/
+work_dirs
 
 # Pytorch
 *.pth
 *.py~
 *.sh~
+
+checkpoints
+
+results
