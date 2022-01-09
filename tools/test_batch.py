@@ -213,15 +213,15 @@ def main(config, checkpoint, out, eval_json):
         else:
             model.CLASSES = dataset.CLASSES
 
-            if not distributed:
-                model = MMDataParallel(model, device_ids=[0])
-                outputs = single_gpu_test(model, data_loader, args.show, args.show_dir, args.show_score_thr)
-            else:
-                model = MMDistributedDataParallel(
-                    model.cuda(),
-                    device_ids=[torch.cuda.current_device()],
-                    broadcast_buffers=False)
-                outputs = multi_gpu_test(model, data_loader, args.tmpdir, args.gpu_collect)
+        if not distributed:
+            model = MMDataParallel(model, device_ids=[0])
+            outputs = single_gpu_test(model, data_loader, args.show, args.show_dir, args.show_score_thr)
+        else:
+            model = MMDistributedDataParallel(
+                model.cuda(),
+                device_ids=[torch.cuda.current_device()],
+                broadcast_buffers=False)
+            outputs = multi_gpu_test(model, data_loader, args.tmpdir, args.gpu_collect)
     else:
         outputs = mmcv.load(args.out)
 
@@ -255,15 +255,32 @@ def main(config, checkpoint, out, eval_json):
 if __name__ == '__main__':
 
     work_dirs = os.listdir('work_dirs')
-    for i, work_dir in enumerate(work_dirs):
-        work_dir_files = os.listdir('work_dirs/' + work_dir)
+
+    algorithm_list = []
+
+    for root, dirs, files in os.walk('work_dirs'):
+        print("root", root)  # 当前目录路径
+        # print("dirs", dirs)  # 当前路径下所有子目录
+        print("files", files)  # 当前路径下所有非目录子文件
+
+        if files.__len__()>0:
+
+            algorithm_list.append([root, files])
+    
+
+    for i, element in enumerate(algorithm_list):
+
+
+        root, work_dir_files = element
+
+
         pth_files = []
         config_file = None
         for file_name in work_dir_files:
             if file_name.endswith('.pth'):
-                pth_files.append('work_dirs/' + work_dir + '/' + file_name)
+                pth_files.append(root + '/' + file_name)
             if file_name.endswith('.py'):
-                config_file = 'work_dirs/' + work_dir + '/' + file_name
+                config_file = root +  '/' + file_name
 
         for j, pth_file in enumerate(pth_files):
             print('===========', i, work_dirs.__len__(),
@@ -276,9 +293,11 @@ if __name__ == '__main__':
             eval_json = pth_file.replace('.pth', '_eval.json')
             # main(config_file, pth_file, out, eval_json)
 
-            try:
-                main(config_file, pth_file, out, eval_json)
-            except Exception as e:
-                print(e)
-            finally:
-                print('================================')
+            main(config_file, pth_file, out, eval_json)
+
+            # try:
+            #     main(config_file, pth_file, out, eval_json)
+            # except Exception as e:
+            #     print(e)
+            # finally:
+            #     print('================================')
