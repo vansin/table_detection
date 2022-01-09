@@ -226,12 +226,11 @@ def main(config, checkpoint, out, eval_json):
         outputs = mmcv.load(args.out)
 
     rank, _ = get_dist_info()
-
     if rank == 0 and not is_eval_json_exist:
         if args.out and not is_out_exist:
             print(f'\nwriting results to {args.out}')
             mmcv.dump(outputs, args.out)
-
+        return
         kwargs = {} if args.eval_options is None else args.eval_options
         if args.format_only:
             dataset.format_results(outputs, **kwargs)
@@ -283,7 +282,7 @@ if __name__ == '__main__':
                 config_file = root +  '/' + file_name
 
         for j, pth_file in enumerate(pth_files):
-            print('===========', i, work_dirs.__len__(),
+            print('===========', i, algorithm_list.__len__(),
                   j, pth_files.__len__(), '=============')
 
             print(config_file, ' ', pth_file)
