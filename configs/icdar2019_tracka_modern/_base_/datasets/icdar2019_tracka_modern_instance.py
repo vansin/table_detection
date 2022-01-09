@@ -47,4 +47,4 @@ data = dict(
         img_prefix='data/icdar2019/test/TRACKA/',
         pipeline=test_pipeline))
 # evaluation = dict(metric=['bbox', 'segm'])
-evaluation = dict(metric='mAP', interval=200)
+evaluation = dict(metric='mAP', interval=2000)
