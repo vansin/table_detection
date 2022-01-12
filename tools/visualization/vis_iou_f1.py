@@ -49,14 +49,18 @@ if __name__ == '__main__':
             epoch = int(name.split('/')[-1].split('_')[1])
             data_origin = mmcv.load(name)
             epoch = int(name.split('/')[-1].split('_')[1])
-            data = dict()
-            data['epoch'] = epoch
-            config_name = data_origin['config'].split('/')[-1]
-            data['dataset'] = data_origin['config'].split('/')[1]
-            data['config'] = config_name
-            data_origin['metric'][1]['detail'] = None
-            data.update(data_origin['metric'][1])
-            eval_files.append(data)
+            # data_origin['metric'][1]['detail'] = None
+
+            for iou, eval_detail_result in data_origin['metric'][1].items():
+                data = dict()
+                data['epoch'] = epoch
+                config_name = data_origin['config'].split('/')[-1]
+                data['dataset'] = data_origin['config'].split('/')[1]
+                data['config'] = config_name
+                data['iou'] = float(iou)
+                eval_detail_result['detail'] = None
+                data.update(eval_detail_result)
+                eval_files.append(data)
 
         eval_files.sort(key=lambda x: x['epoch'])
 
