@@ -113,7 +113,7 @@ def main(config, checkpoint, out, eval_json):
     is_out_exist = osp.exists(out)
     is_eval_json_exist = osp.exists(eval_json)
 
-    is_eval_json_exist = False
+    # is_eval_json_exist = False
     # if is_eval_json_exist:
     #     return
 
