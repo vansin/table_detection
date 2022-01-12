@@ -343,6 +343,15 @@ def eval_map(det_results,
         tuple: (mAP, [dict, dict, ...])
     """
     assert len(det_results) == len(annotations)
+
+    if isinstance(det_results[0][0], list):
+        # adjust the instance output format custom
+        det_results_new = []
+        for det_result in det_results:
+            det_results_new.append(det_result[0])
+        det_results = det_results_new
+
+
     if not use_legacy_coordinate:
         extra_length = 0.
     else:
@@ -492,15 +501,14 @@ def print_map_summary(mean_ap,
     if not isinstance(mean_ap, list):
         mean_ap = [mean_ap]
 
-    header = ['class', 'gts', 'dets', 'recall', 'ap']
+    header = ['class', 'gts', 'dets', 'precision', 'recall', 'ap']
     for i in range(num_scales):
         if scale_ranges is not None:
             print_log(f'Scale range {scale_ranges[i]}', logger=logger)
         table_data = [header]
         for j in range(num_classes):
             row_data = [
-                label_names[j], num_gts[i, j], results[j]['num_dets'],
-                f'{recalls[i, j]:.3f}', f'{aps[i, j]:.3f}'
+                label_names[j], num_gts[i, j], results[j]['num_dets'], results[j]['precision'][-1], f'{recalls[i, j]:.3f}', f'{aps[i, j]:.3f}'
             ]
             table_data.append(row_data)
         table_data.append(['mAP', '', '', '', f'{mean_ap[i]:.3f}'])
