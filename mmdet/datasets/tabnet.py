@@ -427,7 +427,7 @@ class TableDataset(CustomDataset):
                 ar = recalls.mean(axis=1)
                 for i, num in enumerate(proposal_nums):
                     eval_results[f'AR@{num}'] = ar[i]
-        return eval_results, eval_detail_result
+        return eval_results, eval_detail_results
     # def evaluate(self,
     #              results,
     #              metric='bbox',
