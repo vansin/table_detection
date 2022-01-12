@@ -377,13 +377,14 @@ class TableDataset(CustomDataset):
             raise KeyError(f'metric {metric} is not supported')
         annotations = [self.get_ann_info(i) for i in range(len(self))]
         eval_results = OrderedDict()
+        eval_detail_results = OrderedDict()
         iou_thrs = [iou_thr] if isinstance(iou_thr, float) else iou_thr
         if metric == 'mAP':
             assert isinstance(iou_thrs, list)
             mean_aps = []
             for iou_thr in iou_thrs:
                 print_log(f'\n{"-" * 15}iou_thr: {iou_thr}{"-" * 15}')
-                mean_ap, _ = eval_map(
+                mean_ap, eval_detail_result = eval_map(
                     results,
                     annotations,
                     scale_ranges=scale_ranges,
@@ -391,6 +392,7 @@ class TableDataset(CustomDataset):
                     dataset=self.CLASSES,
                     logger=logger)
                 mean_aps.append(mean_ap)
+                eval_detail_results[iou_thr] = eval_detail_result
                 eval_results[f'AP{int(iou_thr * 100):02d}'] = round(mean_ap, 3)
             eval_results['mAP'] = sum(mean_aps) / len(mean_aps)
         elif metric == 'recall':
@@ -404,7 +406,7 @@ class TableDataset(CustomDataset):
                 ar = recalls.mean(axis=1)
                 for i, num in enumerate(proposal_nums):
                     eval_results[f'AR@{num}'] = ar[i]
-        return eval_results
+        return eval_results, eval_detail_result
     # def evaluate(self,
     #              results,
     #              metric='bbox',
