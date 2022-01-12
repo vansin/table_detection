@@ -384,7 +384,7 @@ class TableDataset(CustomDataset):
             mean_aps = []
             for iou_thr in iou_thrs:
                 print_log(f'\n{"-" * 15}iou_thr: {iou_thr}{"-" * 15}')
-                mean_ap, eval_detail_result = eval_map(
+                mean_ap, eval_detail = eval_map(
                     results,
                     annotations,
                     scale_ranges=scale_ranges,
@@ -392,6 +392,20 @@ class TableDataset(CustomDataset):
                     dataset=self.CLASSES,
                     logger=logger)
                 mean_aps.append(mean_ap)
+                # custom detail              
+                eval_detail_result = dict()
+                eval_detail_result['recall'] = eval_detail[0]['recall'][-1]
+                eval_detail_result['precision'] = eval_detail[0]['precision'][-1]
+                eval_detail_result['f1_score'] = 2 * \
+                    eval_detail_result['recall']*eval_detail_result['precision'] / \
+                    (eval_detail_result['recall'] +
+                     eval_detail_result['precision'])
+
+                eval_detail_result['ap'] = eval_detail[0]['ap']
+                eval_detail_result['num_gts'] = eval_detail[0]['num_gts']
+                eval_detail_result['num_dets'] = eval_detail[0]['num_dets']
+                eval_detail_result['detail'] = eval_detail
+
                 eval_detail_results[iou_thr] = eval_detail_result
                 eval_results[f'AP{int(iou_thr * 100):02d}'] = round(mean_ap, 3)
             eval_results['mAP'] = sum(mean_aps) / len(mean_aps)
