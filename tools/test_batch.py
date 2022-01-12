@@ -44,7 +44,7 @@ def parse_args(config, checkpoint, out):
         'submit it to the test server')
     parser.add_argument(
         '--eval',
-        default='bbox',
+        default='mAP',
         type=str,
         nargs='+',
         help='evaluation metrics, which depends on the dataset, e.g., "bbox",'
@@ -230,7 +230,7 @@ def main(config, checkpoint, out, eval_json):
         if args.out and not is_out_exist:
             print(f'\nwriting results to {args.out}')
             mmcv.dump(outputs, args.out)
-        return
+
         kwargs = {} if args.eval_options is None else args.eval_options
         if args.format_only:
             dataset.format_results(outputs, **kwargs)
