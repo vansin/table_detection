@@ -117,7 +117,10 @@ def main(config, checkpoint, out, eval_json):
     # if is_eval_json_exist:
     #     return
 
+    checkpoint_path = checkpoint
     args = parse_args(config, checkpoint, out)
+
+
 
     assert args.out or args.eval or args.format_only or args.show \
         or args.show_dir, \
@@ -244,8 +247,10 @@ def main(config, checkpoint, out, eval_json):
                 eval_kwargs.pop(key, None)
             eval_kwargs.update(dict(metric=args.eval, **kwargs))
             metric = dataset.evaluate(outputs, **eval_kwargs)
-            print(metric)
-            metric_dict = dict(config=args.config, metric=metric)
+            # print(metric)
+            print(checkpoint_path)
+            metric_dict = dict(config=args.config, metric=metric, checkpoint_size=osp.getsize(
+                checkpoint_path) / 1024 / 1024)
             # if args.work_dir is not None and rank == 0:
             #     mmcv.dump(metric_dict, eval_json)
             mmcv.dump(metric_dict, eval_json)

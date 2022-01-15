@@ -57,6 +57,7 @@ if __name__ == '__main__':
                 config_name = data_origin['config'].split('/')[-1]
                 data['dataset'] = data_origin['config'].split('/')[1]
                 data['config'] = config_name
+                data['checkpoint_size'] = data_origin['checkpoint_size']
                 data['iou'] = float(iou)
                 eval_detail_result['detail'] = None
                 data.update(eval_detail_result)
