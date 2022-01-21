@@ -44,7 +44,7 @@ if __name__ == '__main__':
         eval_files = []
         for j, name in enumerate(evals):
             print('===========', i, algorithm_list.__len__(),
-                  j, evals.__len__(), '=============')
+                  j, evals.__len__(), '=============', name, '============')
             
             epoch = int(name.split('/')[-1].split('_')[1])
             data_origin = mmcv.load(name)
