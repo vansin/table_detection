@@ -43,7 +43,7 @@ data = dict(
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        ann_file='data/icdar2019/annotations/table_ICDAR2013_test.json',
+        ann_file='data/icdar2013/annotations/table_ICDAR2013_test.json',
         img_prefix='data/icdar2013/images/',
         pipeline=test_pipeline))
 # evaluation = dict(interval=1, metric='bbox')
