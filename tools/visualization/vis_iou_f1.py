@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import mmcv
 import pandas as pd
 import seaborn as sns
+import time
 
 prefix = '/home/tml/Nutstore Files/ubuntu/paper/data/iou'
 
@@ -126,13 +127,17 @@ intput_data = []
 for result in results:
     intput_data.extend(result)
 
-with open('/home/tml/Nutstore Files/ubuntu/paper/data/1.json', 'w') as f:
+
+
+out_file_name = str(int(time.time()))
+
+with open('/home/tml/Nutstore Files/ubuntu/paper/data/json/'+ out_file_name +'.json', 'w') as f:
     json.dump(results, f)
 
 df = pd.DataFrame.from_dict(intput_data)
 
 
-df.to_csv('/home/tml/Nutstore Files/ubuntu/paper/data/1.csv')
+df.to_csv('/home/tml/Nutstore Files/ubuntu/paper/data/csv/'+out_file_name+'.csv')
 
 
 g = sns.lineplot(x='epoch', y='bbox_mAP', data=df, hue='config',
