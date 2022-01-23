@@ -6,6 +6,7 @@ import mmcv
 import pandas as pd
 import seaborn as sns
 import time
+import numpy as np
 
 prefix = '/home/tml/Nutstore Files/ubuntu/paper/data/iou'
 
@@ -66,6 +67,34 @@ if __name__ == '__main__':
                 data['algorithm'] = algorithm
                 data['checkpoint_size'] = checkpoint_size
                 data['iou'] = float(iou)
+
+                detail = eval_detail_result['detail']
+
+                recalls = eval_detail_result['detail'][0]['recall']
+                precisions = eval_detail_result['detail'][0]['precision']
+                recalls = np.array(recalls)
+
+
+                precisions = np.array(precisions)
+                num_gts = eval_detail_result['detail'][0]['num_gts']
+                num_dets = eval_detail_result['detail'][0]['num_dets']
+                f1_scores = (2*recalls*precisions)/(recalls+precisions)
+                f1_scores[np.isnan(f1_scores)] = 0
+
+                if num_dets==0:
+                    recall_in_max_f1_score = 0
+                    precision_in_max_f1_score = 0
+                    max_f1_score = 0
+                else:
+                    max_index = np.argmax(f1_scores)
+                    recall_in_max_f1_score = recalls[max_index]
+                    precision_in_max_f1_score = precisions[max_index]
+                    max_f1_score = f1_scores[max_index]
+
+                eval_detail_result['recall_in_max_f1_score'] = recall_in_max_f1_score
+                eval_detail_result['precision_in_max_f1_score'] = precision_in_max_f1_score
+                eval_detail_result['max_f1_score'] = max_f1_score
+
                 eval_detail_result['detail'] = None
                 data.update(eval_detail_result)
                 eval_files.append(data)
