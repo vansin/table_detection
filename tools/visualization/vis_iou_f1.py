@@ -52,13 +52,19 @@ if __name__ == '__main__':
             epoch = int(name.split('/')[-1].split('_')[1])
             # data_origin['metric'][1]['detail'] = None
 
+            config_name = data_origin['config'].split('/')[-1]
+            algorithm = data_origin['config'].split('/')[2]
+            dataset = data_origin['config'].split('/')[1]
+            checkpoint_size = data_origin['checkpoint_size']
+
+
             for iou, eval_detail_result in data_origin['metric'][1].items():
                 data = dict()
                 data['epoch'] = epoch
-                config_name = data_origin['config'].split('/')[-1]
-                data['dataset'] = data_origin['config'].split('/')[1]
+                data['dataset'] = dataset
                 data['config'] = config_name
-                data['checkpoint_size'] = data_origin['checkpoint_size']
+                data['algorithm'] = algorithm
+                data['checkpoint_size'] = checkpoint_size
                 data['iou'] = float(iou)
                 eval_detail_result['detail'] = None
                 data.update(eval_detail_result)
