@@ -164,7 +164,7 @@ for result in results:
 
 
 
-out_file_name = str(int(time.time()))
+out_file_name = 'test_result_' + str(int(time.time()))
 
 with open('/home/tml/Nutstore Files/ubuntu/paper/data/json/'+ out_file_name +'.json', 'w') as f:
     json.dump(results, f)
