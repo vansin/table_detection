@@ -162,8 +162,6 @@ intput_data = []
 for result in results:
     intput_data.extend(result)
 
-
-
 out_file_name = 'test_result_' + str(int(time.time()))
 
 with open('/home/tml/Nutstore Files/ubuntu/paper/data/json/'+ out_file_name +'.json', 'w') as f:
@@ -175,14 +173,16 @@ df = pd.DataFrame.from_dict(intput_data)
 df.to_csv('/home/tml/Nutstore Files/ubuntu/paper/data/csv/'+out_file_name+'.csv')
 df.to_excel('/home/tml/Nutstore Files/ubuntu/paper/data/csv/' +
             out_file_name + '.xlsx')
+df.to_excel('/home/tml/Nutstore Files/ubuntu/paper/data/csv/' +
+            'latest' + '.xlsx')
 
 
-g = sns.lineplot(x='epoch', y='bbox_mAP', data=df, hue='config',
-                 style='config', markers=True, dashes=False)
+# g = sns.lineplot(x='epoch', y='bbox_mAP', data=df, hue='config',
+#                  style='config', markers=True, dashes=False)
 # g.legend(loc='right', bbox_to_anchor=(1.5, 0.5), ncol=1)
 
-plt.show()
-print(plt)
+# plt.show()
+# print(plt)
 # for result in results:
 #
 #     sns.set_theme(style='darkgrid')
