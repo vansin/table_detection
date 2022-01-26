@@ -285,6 +285,7 @@ if __name__ == '__main__':
                         dataset=dataset,
                         algorithm=algorithm,
                         epoch=0,
+                        eval_epoch=0,
                         cmd=config_name +' --auto-resume'
                         )
 
@@ -294,15 +295,20 @@ if __name__ == '__main__':
         # print("files", files)  # 当前路径下所有非目录子文件
         if files.__len__() > 0:
             epoch = 0
-
+            eval_epoch = 0
             for file in files:
                 if '.pth' in file:
                     epoch +=1
+                if '_eval.json' in file:
+                    eval_epoch += 1
+
+
 
             config_name = root + '.py'
             config_name = config_name.replace('work_dirs', 'configs')
             infos = config_name.split('/')
             algorithm_list_stats_dict[config_name]['epoch'] = epoch
+            algorithm_list_stats_dict[config_name]['eval_epoch'] = eval_epoch
 
 
 
