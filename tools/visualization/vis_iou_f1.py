@@ -8,6 +8,8 @@ import seaborn as sns
 import time
 import numpy as np
 
+tmp_pkl_name = '/home/tml/Nutstore Files/ubuntu/paper/data/csv/tmp.pkl'
+
 prefix = '/home/tml/Nutstore Files/ubuntu/paper/data/iou'
 
 
@@ -16,6 +18,14 @@ if __name__ == '__main__':
     work_dirs = os.listdir('work_dirs')
 
     results = []
+
+
+    if os.path.exists(tmp_pkl_name):
+        results_dict = mmcv.load(tmp_pkl_name)
+    else:
+        results_dict = dict()
+
+
     best_f1 = []
 
     algorithm_list = []
@@ -43,14 +53,20 @@ if __name__ == '__main__':
             if file_name.endswith('.py'):
                 config_file = file_name
         
-        eval_files = []
+        
         for j, name in enumerate(evals):
+            eval_files = []
             print('===========', i, algorithm_list.__len__(),
                   j, evals.__len__(), '=============', name, '============')
             
             epoch = int(name.split('/')[-1].split('_')[1])
+
+            if (name, epoch) in results_dict:
+                eval_files = results_dict[(name, epoch)]
+                continue
+
             data_origin = mmcv.load(name)
-            epoch = int(name.split('/')[-1].split('_')[1])
+            # epoch = int(name.split('/')[-1].split('_')[1])
             # data_origin['metric'][1]['detail'] = None
 
             config_name = data_origin['config'].split('/')[-1]
@@ -99,7 +115,13 @@ if __name__ == '__main__':
                 data.update(eval_detail_result)
                 eval_files.append(data)
 
-        eval_files.sort(key=lambda x: x['epoch'])
+            results_dict[(name, epoch)] = eval_files
+
+
+        # eval_files.sort(key=lambda x: x['epoch'])
+
+
+
 
         # try:
         #     best_f1.append(
@@ -107,11 +129,7 @@ if __name__ == '__main__':
         # except Exception as e:
         #     print(e)
 
-        results.append(eval_files)
-
-
-
-
+    mmcv.dump(results_dict, tmp_pkl_name)
 
     # work_dirs = os.listdir('work_dirs')
     # for i, work_dir in enumerate(work_dirs):
@@ -159,8 +177,13 @@ if __name__ == '__main__':
 intput_data = []
 
 
-for result in results:
-    intput_data.extend(result)
+# for result in results:
+#     intput_data.extend(result)
+
+for k,v in results_dict.items():
+    intput_data.extend(v)
+
+intput_data.sort(key=lambda x: x['epoch'])
 
 out_file_name = 'test_result_' + str(int(time.time()))
 
