@@ -61,7 +61,7 @@ data = dict(
     test=dict(
         type=dataset_type,
         ann_file=data_root + 'annotations/both_test.json',
-        img_prefix=data_root + 'annotations/both_test.json',
+        img_prefix=data_root + 'images/',
         pipeline=test_pipeline))
 # evaluation = dict(interval=1, metric=['bbox', 'segm'])
 evaluation = dict(interval=10000, metric='mAP')
