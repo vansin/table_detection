@@ -187,15 +187,15 @@ intput_data.sort(key=lambda x: x['epoch'])
 
 out_file_name = 'test_result_' + str(int(time.time()))
 
-with open('/home/tml/Nutstore Files/ubuntu/paper/data/json/'+ out_file_name +'.json', 'w') as f:
-    json.dump(results, f)
+# with open('/home/tml/Nutstore Files/ubuntu/paper/data/json/' +'out.json', 'w') as f:
+#     json.dump(results_dict, f)
 
 df = pd.DataFrame.from_dict(intput_data)
 
 
-df.to_csv('/home/tml/Nutstore Files/ubuntu/paper/data/csv/'+out_file_name+'.csv')
-df.to_excel('/home/tml/Nutstore Files/ubuntu/paper/data/csv/' +
-            out_file_name + '.xlsx')
+# df.to_csv('/home/tml/Nutstore Files/ubuntu/paper/data/csv/'+out_file_name+'.csv')
+# df.to_excel('/home/tml/Nutstore Files/ubuntu/paper/data/csv/' +
+#             out_file_name + '.xlsx')
 df.to_excel('/home/tml/Nutstore Files/ubuntu/paper/data/csv/' +
             'latest' + '.xlsx')
 
