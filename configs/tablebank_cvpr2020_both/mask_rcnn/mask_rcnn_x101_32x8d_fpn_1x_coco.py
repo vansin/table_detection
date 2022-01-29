@@ -14,7 +14,7 @@ model = dict(
             type='Pretrained',
             checkpoint='open-mmlab://detectron2/resnext101_32x8d')))
 
-dataset_type = 'CocoDataset'
+dataset_type = 'TableDataset'
 data_root = 'data/coco/'
 img_norm_cfg = dict(
     mean=[103.530, 116.280, 123.675],
@@ -45,21 +45,41 @@ test_pipeline = [
             dict(type='Collect', keys=['img']),
         ])
 ]
+# data = dict(
+#     samples_per_gpu=2,
+#     workers_per_gpu=2,
+#     train=dict(
+#         type=dataset_type,
+#         ann_file=data_root + 'annotations/instances_train2017.json',
+#         img_prefix=data_root + 'train2017/',
+#         pipeline=train_pipeline),
+#     val=dict(
+#         type=dataset_type,
+#         ann_file=data_root + 'annotations/instances_val2017.json',
+#         img_prefix=data_root + 'val2017/',
+#         pipeline=test_pipeline),
+#     test=dict(
+#         type=dataset_type,
+#         ann_file=data_root + 'annotations/instances_val2017.json',
+#         img_prefix=data_root + 'val2017/',
+#         pipeline=test_pipeline))
+
+
 data = dict(
     samples_per_gpu=2,
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/instances_train2017.json',
-        img_prefix=data_root + 'train2017/',
+        ann_file=data_root + 'annotations/both_train.json',
+        img_prefix=data_root + 'images/',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/instances_val2017.json',
-        img_prefix=data_root + 'val2017/',
+        ann_file=data_root + 'annotations/both_test.json',
+        img_prefix=data_root + 'images/',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/instances_val2017.json',
-        img_prefix=data_root + 'val2017/',
+        ann_file=data_root + 'annotations/both_test.json',
+        img_prefix=data_root + 'images/',
         pipeline=test_pipeline))
