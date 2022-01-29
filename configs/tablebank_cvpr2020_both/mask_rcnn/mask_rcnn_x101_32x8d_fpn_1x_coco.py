@@ -15,7 +15,7 @@ model = dict(
             checkpoint='open-mmlab://detectron2/resnext101_32x8d')))
 
 dataset_type = 'TableDataset'
-data_root = 'data/coco/'
+data_root = 'data/table/'
 img_norm_cfg = dict(
     mean=[103.530, 116.280, 123.675],
     std=[57.375, 57.120, 58.395],
