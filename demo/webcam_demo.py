@@ -3,6 +3,7 @@ import argparse
 
 import cv2
 import torch
+import time
 
 from mmdet.apis import inference_detector, init_detector
 
@@ -31,9 +32,14 @@ def main():
     camera = cv2.VideoCapture(args.camera_id)
 
     print('Press "Esc", "q" or "Q" to exit.')
+
+
     while True:
+        start = time.time()
         ret_val, img = camera.read()
         result = inference_detector(model, img)
+
+        # print(result)
 
         ch = cv2.waitKey(1)
         if ch == 27 or ch == ord('q') or ch == ord('Q'):
@@ -42,6 +48,11 @@ def main():
         model.show_result(
             img, result, score_thr=args.score_thr, wait_time=1, show=True)
 
+        end = time.time()
+
+        fps = 1 / (end - start)
+
+        print(fps)
 
 if __name__ == '__main__':
     main()
