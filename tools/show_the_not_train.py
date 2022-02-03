@@ -321,6 +321,6 @@ if __name__ == '__main__':
 df = pd.DataFrame.from_dict(algorithm_list_stats)
 
 
-df.to_excel('/home/tml/Nutstore Files/ubuntu/paper/data/trained_origin.xlsx')
+df.to_csv('/home/tml/Nutstore Files/ubuntu/paper/data/trained_origin.csv')
 
 print('================================ out ==========')
