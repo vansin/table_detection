@@ -1,9 +1,14 @@
 import pandas as pd
 
-df = pd.read_csv('/home/vansin/Nutstore Files/ubuntu/paper/data/trained_origin.csv')
+train_df = pd.read_csv('/home/vansin/Nutstore Files/ubuntu/paper/data/trained_origin.csv')
+eval_df = pd.read_csv('/home/vansin/Nutstore Files/ubuntu/paper/data/csv/latest.csv')
 
 
-data = pd.pivot_table(df, index=['cmd'], values=['epoch', 'eval_epoch'], )
+train_data = pd.pivot_table(train_df, index=['cmd'], values=[
+                      'epoch', 'eval_epoch'], )
+
+eval_data = pd.pivot_table(eval_df, index=['cmd'], values=[
+    'epoch', 'eval_epoch'], )
 
 
-print(pd)
+print( train_data_)
