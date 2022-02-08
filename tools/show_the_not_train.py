@@ -322,5 +322,6 @@ df = pd.DataFrame.from_dict(algorithm_list_stats)
 
 
 df.to_csv('/home/tml/Nutstore Files/ubuntu/paper/data/trained_origin.csv')
+df.to_excel('/home/tml/Nutstore Files/ubuntu/paper/data/trained_origin.xlsx')
 
 print('================================ out ==========')

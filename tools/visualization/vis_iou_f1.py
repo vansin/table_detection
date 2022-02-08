@@ -198,6 +198,8 @@ df = pd.DataFrame.from_dict(intput_data)
 #             out_file_name + '.xlsx')
 df.to_csv('/home/tml/Nutstore Files/ubuntu/paper/data/csv/' +
             'latest' + '.csv')
+df.to_excel('/home/tml/Nutstore Files/ubuntu/paper/data/csv/' +
+            'latest' + '.xlsx')
 
 
 # g = sns.lineplot(x='epoch', y='bbox_mAP', data=df, hue='config',
